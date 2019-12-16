@@ -1,13 +1,14 @@
-import React, { Component, Fragment } from 'react';
+import React from 'react';
 
-class App extends Component {
-	render () {
-		return (
-			<Fragment>
-				Done!
-			</Fragment>
-		);
-	}
-}
+import Exchange from '../Exchange';
+import { ExchangeProvider } from '../../contexts/ExchangeContext';
+
+const App = () => {
+  return (
+    <ExchangeProvider>
+      <Exchange />
+    </ExchangeProvider>
+  );
+};
 
 export default App;
