@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Exchange from '../Exchange';
 import { ExchangeProvider } from '../../contexts/ExchangeContext';
+import Exchange from '../Exchange';
 
 const App = () => {
   return (

@@ -1,22 +1,36 @@
 import React, { createContext, useReducer, useContext } from 'react';
 
+import {
+  SERVER_URL,
+  START_EXCHANGE_RATE_UPDATE,
+  FINISH_EXCHANGE_RATE_UPDATE,
+  FAIL_EXCHANGE_RATE_UPDATE,
+  TRIGGER_EXCHANGE,
+  CHANGE_POCKET
+} from '../constants';
+
 const ExchangeStateContext = createContext();
 const ExchangeDispatchContext = createContext();
 
 function exchangeReducer (state, action) {
+  console.log(action)
   switch (action.type) {
-    case 'exchange': {
+    case TRIGGER_EXCHANGE: {
       return state;
     }
-    case 'pocketChange': {
+    case CHANGE_POCKET : {
       return state;
+    }
+    case FINISH_EXCHANGE_RATE_UPDATE: {
+      return {...state, exchangeRate: action.payload.rates[state.slots[1]]};
     }
   }
+  return state;
 }
 
 // ACTIONS
 // {
-//   type: 'exchange',
+//   type: 'TRIGGER_EXCHANGE',
 //   payload: {
 //     fromCurrency: 'GBP',
 //     toCurrency: 'EUR',
@@ -26,7 +40,7 @@ function exchangeReducer (state, action) {
 // };
 
 // {
-//   type: 'pocketChange',
+//   type: 'CHANGE_POCKET',
 //   slot: 1,
 //   newCurrency: 'EUR',
 // };
@@ -81,6 +95,29 @@ function useExchangeDispatch () {
   if (typeof context === 'undefined') {
     throw new Error('useExchangeDispatch must be used within a ExchangeProvider');
   }
+
+  return context;
 }
 
-export { ExchangeProvider, useExchangeState, useExchangeDispatch };
+async function getExchangeRates (dispatch, fromCurrency) {
+  dispatch({ type: START_EXCHANGE_RATE_UPDATE });
+  try {
+    const response = await fetch(`${SERVER_URL}/${fromCurrency}`);
+
+    if (response.status >= 400 && response.status < 600) {
+      console.log('bad response');
+      throw new Error('Bad response from server');
+    } else {
+      console.log('good responses');
+
+      const json = await response.json();
+
+      dispatch({ type: FINISH_EXCHANGE_RATE_UPDATE, payload: json });
+    }
+  } catch (error) {
+    console.log('fail response', error);
+    dispatch({ type: FAIL_EXCHANGE_RATE_UPDATE, error });
+  }
+}
+
+export { ExchangeProvider, useExchangeState, useExchangeDispatch, getExchangeRates };

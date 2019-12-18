@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 
-import { useExchangeState } from '../../contexts/ExchangeContext';
+import { useExchangeState, useExchangeDispatch, getExchangeRates } from '../../contexts/ExchangeContext';
 import Dropdown from '../Dropdown';
 
 const Title = styled.h1``;
@@ -13,8 +13,19 @@ const Balance = styled.div``;
 
 const Exchange = () => {
   const { pockets, slots, exchangeRate } = useExchangeState();
+  const dispatch = useExchangeDispatch();
 
   const ddOptions = Object.keys(pockets);
+
+
+  useEffect(() => {
+    getExchangeRates(dispatch, slots[0])
+    const intervalId = setInterval(() => {getExchangeRates(dispatch, slots[0])}, 10000);
+
+    return function cleanup () {
+      clearInterval(intervalId);
+    }
+  }, [dispatch, slots])
 
   return (
     <>

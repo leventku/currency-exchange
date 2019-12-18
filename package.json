@@ -5,8 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "jest",
-    "start": "parcel pub/index.html",
-    "start:server": "./bin/server-darwin-10.6-amd64"
+    "start": "parcel pub/index.html"
   },
   "keywords": [],
   "author": "Levent Kucukgorkey <levent.kucukgorkey@gmail.com>",
