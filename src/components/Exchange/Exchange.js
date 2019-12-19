@@ -2,15 +2,12 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { useExchangeState, useExchangeDispatch, getExchangeRates } from '../../contexts/ExchangeContext';
-import Dropdown from '../Dropdown';
+import Pocket from './Pocket';
 import { CHANGE_POCKET_ACTION, SWAP_SLOTS_ACTION } from '../../constants';
 
 const Title = styled.h1``;
-const Pocket = styled.div``;
 const Button = styled.button``;
 const Rate = styled.span``;
-const Input = styled.input.attrs({ type: 'number' })``;
-const Balance = styled.div``;
 
 const Exchange = () => {
   const { pockets, slots, exchangeRates } = useExchangeState();
@@ -42,34 +39,20 @@ const Exchange = () => {
   return (
     <>
       <Title>Exchange</Title>
-      <Pocket>
-        <Dropdown
-          options={ddOptions}
-          handleChange={handleSlotChange(0)}
+
+      {slots.map((slot, index) => (
+        <Pocket
+          key={index}
+          ddOptions={ddOptions}
+          handleSlotChange={handleSlotChange(index)}
+          currency={slots[index]}
         >
-          {slots[0]}
-        </Dropdown>
-        <Input />
-        <Balance>
-          {pockets[slots[0]]}
-        </Balance>
-      </Pocket>
+          {pockets[slots[index]]}
+        </Pocket>
+      ))}
 
       <Button onClick={handleSwapSlots}>↕</Button>
       <Rate>{exchangeRates[slots[1]]}</Rate>
-
-      <Pocket>
-        <Dropdown
-          options={ddOptions}
-          handleChange={handleSlotChange(1)}
-        >
-          {slots[1]}
-        </Dropdown>
-        <Input />
-        <Balance>
-          {pockets[slots[1]]}
-        </Balance>
-      </Pocket>
 
       <Button>Exchange</Button>
     </>

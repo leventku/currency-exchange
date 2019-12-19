@@ -7,7 +7,7 @@ import {
   FAIL_EXCHANGE_RATE_UPDATE_ACTION,
   TRIGGER_EXCHANGE,
   CHANGE_POCKET_ACTION,
-  SWAP_SLOTS_ACTION
+  SWAP_SLOTS_ACTION,
 } from '../constants';
 
 const ExchangeStateContext = createContext();
@@ -20,20 +20,23 @@ function exchangeReducer (state, action) {
       return state;
     }
     case CHANGE_POCKET_ACTION : {
-      let results = Array.from(state.slots);
-      const {slot, value} = action.payload;
+      const results = Array.from(state.slots);
+      const { slot, value } = action.payload;
+
       results[slot] = value;
 
-      return {...state, slots: results};
+      return { ...state, slots: results };
     }
     case FINISH_EXCHANGE_RATE_UPDATE_ACTION: {
       // console.log(action.payload)
-      return {...state, exchangeRates: action.payload.rates};
+      return { ...state, exchangeRates: action.payload.rates };
     }
     case SWAP_SLOTS_ACTION: {
-      let results = Array.from(state.slots);
+      const results = Array.from(state.slots);
+
       results.reverse();
-      return {...state, slots: results};
+
+      return { ...state, slots: results };
     }
     default: {
       // TODO: catch unreduced actions
@@ -102,7 +105,8 @@ function useExchangeDispatch () {
 async function getExchangeRates (dispatch, fromCurrency) {
   dispatch({ type: START_EXCHANGE_RATE_UPDATE_ACTION });
   try {
-    const response = await fetch(`${SERVER_URL}${fromCurrency}`, {mode: 'cors'});
+    const response = await fetch(`${SERVER_URL}${fromCurrency}`, { mode: 'cors' });
+
     if (response.status >= 400 && response.status < 600) {
       // console.log('bad response');
       throw new Error('Bad response from server');

@@ -19,13 +19,13 @@ const DropdownHolder = styled.div`
     padding-right: 6px;
   }
 `;
-const Dropdown = ({ children, options, handleChange }) => {
+const Dropdown = ({ initialValue, options, handleChange }) => {
   return (
     <DropdownHolder>
       <Select defaultValue="default"
         onChange={handleChange}
       >
-        <option value="default">{children}</option>
+        <option value="default">{initialValue}</option>
         {options.map((val, index) => (
           <option key={index + Math.random()} value={val}>{val}</option>
         ))}
