@@ -2,30 +2,45 @@ import React, { createContext, useReducer, useContext } from 'react';
 
 import {
   SERVER_URL,
-  START_EXCHANGE_RATE_UPDATE,
-  FINISH_EXCHANGE_RATE_UPDATE,
-  FAIL_EXCHANGE_RATE_UPDATE,
+  START_EXCHANGE_RATE_UPDATE_ACTION,
+  FINISH_EXCHANGE_RATE_UPDATE_ACTION,
+  FAIL_EXCHANGE_RATE_UPDATE_ACTION,
   TRIGGER_EXCHANGE,
-  CHANGE_POCKET
+  CHANGE_POCKET_ACTION,
+  SWAP_SLOTS_ACTION
 } from '../constants';
 
 const ExchangeStateContext = createContext();
 const ExchangeDispatchContext = createContext();
 
 function exchangeReducer (state, action) {
-  console.log(action)
+  // console.log(action)
   switch (action.type) {
     case TRIGGER_EXCHANGE: {
       return state;
     }
-    case CHANGE_POCKET : {
+    case CHANGE_POCKET_ACTION : {
+      let results = Array.from(state.slots);
+      const {slot, value} = action.payload;
+      results[slot] = value;
+
+      return {...state, slots: results};
+    }
+    case FINISH_EXCHANGE_RATE_UPDATE_ACTION: {
+      // console.log(action.payload)
+      return {...state, exchangeRates: action.payload.rates};
+    }
+    case SWAP_SLOTS_ACTION: {
+      let results = Array.from(state.slots);
+      results.reverse();
+      return {...state, slots: results};
+    }
+    default: {
+      // TODO: catch unreduced actions
       return state;
     }
-    case FINISH_EXCHANGE_RATE_UPDATE: {
-      return {...state, exchangeRate: action.payload.rates[state.slots[1]]};
-    }
+
   }
-  return state;
 }
 
 // ACTIONS
@@ -39,32 +54,17 @@ function exchangeReducer (state, action) {
 //   },
 // };
 
-// {
-//   type: 'CHANGE_POCKET',
-//   slot: 1,
-//   newCurrency: 'EUR',
-// };
-
-// INITIAL STATE
 const INITIAL_STATE = {
   pockets: {
-    GBP: {
-      balance: 100,
-      active: true,
-    },
-    USD: {
-      balance: 0,
-      active: true,
-    },
-    EUR: {
-      balance: 0,
-      active: false,
-    },
+    GBP: 100,
+    USD: 5,
+    JPY: 10,
+    TRY: 10,
   },
   slots: [
-    'GBP', 'USD',
+    'TRY', 'JPY',
   ],
-  exchangeRate: 1.331789,
+  exchangeRates: {},
 };
 
 function ExchangeProvider ({ children }) {
@@ -100,23 +100,21 @@ function useExchangeDispatch () {
 }
 
 async function getExchangeRates (dispatch, fromCurrency) {
-  dispatch({ type: START_EXCHANGE_RATE_UPDATE });
+  dispatch({ type: START_EXCHANGE_RATE_UPDATE_ACTION });
   try {
-    const response = await fetch(`${SERVER_URL}/${fromCurrency}`);
-
+    const response = await fetch(`${SERVER_URL}${fromCurrency}`, {mode: 'cors'});
     if (response.status >= 400 && response.status < 600) {
-      console.log('bad response');
+      // console.log('bad response');
       throw new Error('Bad response from server');
     } else {
-      console.log('good responses');
-
+      // console.log('good response');
       const json = await response.json();
 
-      dispatch({ type: FINISH_EXCHANGE_RATE_UPDATE, payload: json });
+      dispatch({ type: FINISH_EXCHANGE_RATE_UPDATE_ACTION, payload: json });
     }
   } catch (error) {
-    console.log('fail response', error);
-    dispatch({ type: FAIL_EXCHANGE_RATE_UPDATE, error });
+    dispatch({ type: FAIL_EXCHANGE_RATE_UPDATE_ACTION, error });
+    // console.log('fail response');
   }
 }
 

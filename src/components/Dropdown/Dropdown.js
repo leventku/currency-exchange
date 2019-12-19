@@ -22,19 +22,15 @@ const DropdownHolder = styled.div`
     padding-right: 6px;
   }
 `;
-const Dropdown = ({ children, options, action }) => {
-  const dispatch = useExchangeDispatch();
-
+const Dropdown = ({ children, options, action, dispatch, handleChange }) => {
   return (
     <DropdownHolder>
       <Select defaultValue="default"
-        onChange={(e) => {
-          dispatch({ type: action.type, payload: e.currentTarget.value });
-        }}
+        onChange={handleChange}
       >
-        <option value="default" disabled>{children}</option>
-        {options.map(val => (
-          <option key={val} value={val}>{val[0].toUpperCase() + val.substr(1)}</option>
+        <option value="default">{children}</option>
+        {options.map((val, index) => (
+          <option key={index} value={val}>{val}</option>
         ))}
       </Select>
     </DropdownHolder>
