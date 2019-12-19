@@ -1,8 +1,5 @@
 import React from 'react';
-
 import styled from 'styled-components';
-
-import { useExchangeDispatch } from '../../contexts/ExchangeContext';
 
 const Select = styled.select`
   appearance: none;
@@ -22,7 +19,7 @@ const DropdownHolder = styled.div`
     padding-right: 6px;
   }
 `;
-const Dropdown = ({ children, options, action, dispatch, handleChange }) => {
+const Dropdown = ({ children, options, handleChange }) => {
   return (
     <DropdownHolder>
       <Select defaultValue="default"
@@ -30,7 +27,7 @@ const Dropdown = ({ children, options, action, dispatch, handleChange }) => {
       >
         <option value="default">{children}</option>
         {options.map((val, index) => (
-          <option key={index} value={val}>{val}</option>
+          <option key={index + Math.random()} value={val}>{val}</option>
         ))}
       </Select>
     </DropdownHolder>
