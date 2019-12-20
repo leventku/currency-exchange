@@ -32,10 +32,17 @@ const Exchange = () => {
   };
 
   const handleSlotChange = (slot) => (e) => {
-    dispatch({
-      type: CHANGE_POCKET_ACTION,
-      payload: { slot, value: e.currentTarget.value },
-    });
+    const newPocket = e.currentTarget.value;
+    const otherSlot = (slot + 1) % 2;
+
+    if (newPocket === slots[otherSlot]) {
+      handleSwapSlots();
+    } else {
+      dispatch({
+        type: CHANGE_POCKET_ACTION,
+        payload: { slot, value: newPocket },
+      });
+    }
   };
 
   return (

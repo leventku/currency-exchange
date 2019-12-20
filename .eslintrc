@@ -4,6 +4,16 @@
       "es6": true,
       "browser": true
     },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
     "plugins": ["react", "react-hooks"],
     "rules": {
       "indent": [
