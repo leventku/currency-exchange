@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 
 import { useExchangeState, useExchangeDispatch, getExchangeRates } from '../../contexts/ExchangeContext';
 import Pocket from './Pocket';
-import { CHANGE_POCKET_ACTION, SWAP_SLOTS_ACTION, INPUT_CHANGE_ACTION } from '../../constants';
+import { CHANGE_POCKET_ACTION, SWAP_SLOTS_ACTION, INPUT_CHANGE_ACTION, TRIGGER_EXCHANGE_ACTION } from '../../constants';
 
 const Title = styled.h1``;
 const Button = styled.button``;
@@ -49,6 +49,10 @@ const Exchange = () => {
     }
   };
 
+  const triggerExchange = () => {
+    dispatch({ type: TRIGGER_EXCHANGE_ACTION });
+  };
+
   return (
     <>
       <Title>Exchange</Title>
@@ -76,7 +80,7 @@ const Exchange = () => {
         }
       </Rate>
 
-      <Button>Exchange</Button>
+      <Button onClick={triggerExchange}>Exchange</Button>
     </>
   );
 };

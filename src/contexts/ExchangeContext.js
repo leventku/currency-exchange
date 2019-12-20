@@ -5,7 +5,7 @@ import {
   START_EXCHANGE_RATE_UPDATE_ACTION,
   FINISH_EXCHANGE_RATE_UPDATE_ACTION,
   FAIL_EXCHANGE_RATE_UPDATE_ACTION,
-  TRIGGER_EXCHANGE,
+  TRIGGER_EXCHANGE_ACTION,
   CHANGE_POCKET_ACTION,
   SWAP_SLOTS_ACTION,
   INPUT_CHANGE_ACTION,
@@ -15,10 +15,17 @@ const ExchangeStateContext = createContext();
 const ExchangeDispatchContext = createContext();
 
 function exchangeReducer (state, action) {
-  // console.log(action)
   switch (action.type) {
-    case TRIGGER_EXCHANGE: {
-      return state;
+    case TRIGGER_EXCHANGE_ACTION: {
+      const sellCurrency = state.slots[0];
+      const buyCurrency = state.slots[1];
+      const sellPocketBalance = state.pockets[sellCurrency];
+      const buyPocketBalance = state.pockets[buyCurrency];
+
+      const sellPocket = { [sellCurrency]: sellPocketBalance - state.inputs[0] };
+      const buyPocket = { [buyCurrency]: buyPocketBalance + state.inputs[1] };
+
+      return { ...state, pockets: { ...state.pockets, ...sellPocket, ...buyPocket } };
     }
     case CHANGE_POCKET_ACTION : {
       const results = Array.from(state.slots);
@@ -29,16 +36,13 @@ function exchangeReducer (state, action) {
       return { ...state, slots: results };
     }
     case FINISH_EXCHANGE_RATE_UPDATE_ACTION: {
-      // console.log(action.payload)
       return { ...state, exchangeRates: action.payload.rates };
     }
     case SWAP_SLOTS_ACTION: {
       const slots = Array.from(state.slots);
-
-      slots.reverse();
-
       const inputs = Array.from(state.inputs);
 
+      slots.reverse();
       inputs.reverse();
 
       return { ...state, slots, inputs };
@@ -66,17 +70,6 @@ function exchangeReducer (state, action) {
 
   }
 }
-
-// ACTIONS
-// {
-//   type: 'TRIGGER_EXCHANGE',
-//   payload: {
-//     fromCurrency: 'GBP',
-//     toCurrency: 'EUR',
-//     amount: 10,
-//     rate: 1.20,
-//   },
-// };
 
 const INITIAL_STATE = {
   pockets: {

@@ -17,7 +17,7 @@ const getSign = (length, seller) => {
   return seller ? '-' : '+';
 };
 
-const Pocket = ({ children, currency, ddOptions, handleSlotChange, onAmountChange, amountValue, input, amount, seller }) => {
+const Pocket = ({ children, currency, ddOptions, handleSlotChange, onAmountChange, amountValue, seller }) => {
   return (<PocketWrap>
     <Dropdown
       options={removeFromArray(ddOptions, ddOptions.findIndex(o => o === currency))}
