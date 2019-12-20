@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { currencySigns } from '../../constants';
 import Dropdown from '../Dropdown';
 
 const PocketWrap = styled.div``;
@@ -10,18 +11,26 @@ const Balance = styled.div``;
 const removeFromArray = (array, toRemoveIdx) =>
   [...array.slice(0, toRemoveIdx), ...array.slice(toRemoveIdx + 1)];
 
-const Pocket = ({ children, currency, ddOptions, handleSlotChange }) => (<PocketWrap>
-  <Dropdown
-    options={removeFromArray(ddOptions, ddOptions.findIndex(o => o === currency))}
-    handleChange={handleSlotChange}
-    initialValue={currency}
-  >
-  </Dropdown>
-  <Input />
-  <Balance>
-    {children}
-  </Balance>
-</PocketWrap>);
+const getSign = (length, seller) => {
+  if (!length) { return; }
+
+  return seller ? '-' : '+';
+};
+
+const Pocket = ({ children, currency, ddOptions, handleSlotChange, onAmountChange, amountValue, input, amount, seller }) => {
+  return (<PocketWrap>
+    <Dropdown
+      options={removeFromArray(ddOptions, ddOptions.findIndex(o => o === currency))}
+      handleChange={handleSlotChange}
+      initialValue={currency}
+    >
+    </Dropdown>
+    {getSign(amountValue, seller)}<Input onChange={onAmountChange} value={amountValue} />
+    <Balance>
+      Balance: {currencySigns[currency]}{children}
+    </Balance>
+  </PocketWrap>);
+};
 
 export default Pocket;
 

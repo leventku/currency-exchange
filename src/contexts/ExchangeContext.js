@@ -8,6 +8,7 @@ import {
   TRIGGER_EXCHANGE,
   CHANGE_POCKET_ACTION,
   SWAP_SLOTS_ACTION,
+  INPUT_CHANGE_ACTION,
 } from '../constants';
 
 const ExchangeStateContext = createContext();
@@ -32,11 +33,31 @@ function exchangeReducer (state, action) {
       return { ...state, exchangeRates: action.payload.rates };
     }
     case SWAP_SLOTS_ACTION: {
-      const results = Array.from(state.slots);
+      const slots = Array.from(state.slots);
 
-      results.reverse();
+      slots.reverse();
 
-      return { ...state, slots: results };
+      const inputs = Array.from(state.inputs);
+
+      inputs.reverse();
+
+      return { ...state, slots, inputs };
+    }
+
+    case INPUT_CHANGE_ACTION: {
+      const { slot, value } = action.payload;
+      const inputs = Array.from(state.inputs);
+
+      const sellRate = state.exchangeRates[state.slots[1]];
+
+      inputs[slot] = value;
+      if (slot === 0) {
+        inputs[1] = value * sellRate;
+      } else {
+        inputs[0] = value * (1 / sellRate);
+      }
+
+      return { ...state, inputs };
     }
     default: {
       // TODO: catch unreduced actions
@@ -65,7 +86,10 @@ const INITIAL_STATE = {
     TRY: 10,
   },
   slots: [
-    'TRY', 'JPY',
+    'GBP', 'USD',
+  ],
+  inputs: [
+    '', '',
   ],
   exchangeRates: {},
 };
