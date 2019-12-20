@@ -9,6 +9,8 @@ const Title = styled.h1``;
 const Button = styled.button``;
 const Rate = styled.span``;
 
+const roundToDecimal = (number, afterDecimalCount) => Math.round(number * 10 ** afterDecimalCount) / (10 ** afterDecimalCount);
+
 const Exchange = () => {
   const { pockets, slots, exchangeRates } = useExchangeState();
   const dispatch = useExchangeDispatch();
@@ -52,7 +54,13 @@ const Exchange = () => {
       ))}
 
       <Button onClick={handleSwapSlots}>↕</Button>
-      <Rate>{exchangeRates[slots[1]]}</Rate>
+      <Rate>
+        {
+          exchangeRates[slots[1]]
+            ? roundToDecimal(exchangeRates[slots[1]], 4)
+            : ''
+        }
+      </Rate>
 
       <Button>Exchange</Button>
     </>
