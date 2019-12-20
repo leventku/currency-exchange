@@ -13,11 +13,6 @@ const DropdownHolder = styled.div`
   display: inline-block;
   color: black;
   border-radius: 5px;
-  ::after {
-    content: '▼';
-    display: inline-block;
-    padding-right: 6px;
-  }
 `;
 const Dropdown = ({ initialValue, options, handleChange }) => {
   return (

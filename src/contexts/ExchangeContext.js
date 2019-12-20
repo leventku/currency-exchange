@@ -54,11 +54,11 @@ function exchangeReducer (state, action) {
 
       const sellRate = state.exchangeRates[state.slots[1]];
 
-      inputs[slot] = value;
+      inputs[slot] = parseFloat(value);
       if (slot === 0) {
-        inputs[1] = value * sellRate;
+        inputs[1] = parseFloat(value) * sellRate;
       } else {
-        inputs[0] = value * (1 / sellRate);
+        inputs[0] = parseFloat(value) * (1 / sellRate);
       }
 
       return { ...state, inputs };
@@ -82,7 +82,7 @@ const INITIAL_STATE = {
     'GBP', 'USD',
   ],
   inputs: [
-    '', '',
+    0, 0,
   ],
   exchangeRates: {},
 };

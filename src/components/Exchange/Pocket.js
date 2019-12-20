@@ -6,7 +6,9 @@ import Dropdown from '../Dropdown';
 
 const PocketWrap = styled.div``;
 const Input = styled.input.attrs({ type: 'number' })``;
-const Balance = styled.div``;
+const Balance = styled.p`
+  color: ${p => p.insufficient ? 'red' : 'normal'};
+`;
 
 const removeFromArray = (array, toRemoveIdx) =>
   [...array.slice(0, toRemoveIdx), ...array.slice(toRemoveIdx + 1)];
@@ -17,7 +19,9 @@ const getSign = (length, seller) => {
   return seller ? '-' : '+';
 };
 
-const Pocket = ({ children, currency, ddOptions, handleSlotChange, onAmountChange, amountValue, seller }) => {
+const checkSufficient = (pocketValue, amountValue) => pocketValue < amountValue;
+
+const Pocket = ({ children, currency, ddOptions, handleSlotChange, onAmountChange, amountValue, isSeller }) => {
   return (<PocketWrap>
     <Dropdown
       options={removeFromArray(ddOptions, ddOptions.findIndex(o => o === currency))}
@@ -25,8 +29,13 @@ const Pocket = ({ children, currency, ddOptions, handleSlotChange, onAmountChang
       initialValue={currency}
     >
     </Dropdown>
-    {getSign(amountValue, seller)}<Input onChange={onAmountChange} value={amountValue} />
-    <Balance>
+    {getSign(amountValue, isSeller)}
+    <Input
+      onChange={onAmountChange}
+      value={amountValue}
+      onFocus={e=>{ e.target.value === '0' && e.target.select(); }}
+    />
+    <Balance insufficient={isSeller && checkSufficient(children, amountValue)}>
       Balance: {currencySigns[currency]}{children}
     </Balance>
   </PocketWrap>);

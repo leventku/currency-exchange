@@ -19,7 +19,10 @@ const Exchange = () => {
   const ddOptions = Object.keys(pockets);
 
   const handleAmountChange = useCallback(slot => (e) => {
-    dispatch({ type: INPUT_CHANGE_ACTION, payload: { slot, value: e.currentTarget.value } });
+    if (e.target.value === '') {
+      e.target.value = 0;
+    }
+    dispatch({ type: INPUT_CHANGE_ACTION, payload: { slot, value: e.target.value } });
   }, [dispatch]);
 
   useEffect(() => {
@@ -37,7 +40,7 @@ const Exchange = () => {
   };
 
   const handleSlotChange = (slot) => (e) => {
-    const newPocket = e.currentTarget.value;
+    const newPocket = e.target.value;
 
     if (newPocket === slots[slot === 0 ? 1 : 0]) {
       handleSwapSlots();
@@ -49,6 +52,8 @@ const Exchange = () => {
     }
   };
 
+  const canTriggerExchange = () => pockets[slots[0]] > inputs[0];
+
   const triggerExchange = () => {
     dispatch({ type: TRIGGER_EXCHANGE_ACTION });
   };
@@ -59,11 +64,11 @@ const Exchange = () => {
 
       {slots.map((slot, index) => (
         <Pocket
-          key={`${index}-${Math.random()}`}
+          key={index}
           ddOptions={ddOptions}
           handleSlotChange={handleSlotChange(index)}
           currency={slots[index]}
-          seller={index === 0}
+          isSeller={index === 0}
           onAmountChange={handleAmountChange(index)}
           amountValue={inputs[index]}
         >
@@ -80,7 +85,7 @@ const Exchange = () => {
         }
       </Rate>
 
-      <Button onClick={triggerExchange}>Exchange</Button>
+      <Button disabled={!canTriggerExchange()} onClick={triggerExchange}>Exchange</Button>
     </>
   );
 };
