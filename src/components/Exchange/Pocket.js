@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { currencySigns } from '../../constants';
+import { removeFromArray, getSign } from '../../shared';
 import Dropdown from '../Dropdown';
 
 const PocketWrap = styled.div``;
@@ -10,16 +11,9 @@ const Balance = styled.p`
   color: ${p => p.insufficient ? 'red' : 'normal'};
 `;
 
-const removeFromArray = (array, toRemoveIdx) =>
-  [...array.slice(0, toRemoveIdx), ...array.slice(toRemoveIdx + 1)];
-
-const getSign = (length, seller) => {
-  if (!length) { return; }
-
-  return seller ? '-' : '+';
-};
-
 const checkSufficient = (pocketValue, amountValue) => pocketValue < amountValue;
+
+const handleFocus = e => { (parseFloat(e.target.value)) === 0 && e.target.select(); };
 
 const Pocket = ({ children, currency, ddOptions, handleSlotChange, onAmountChange, amountValue, isSeller }) => {
   return (<PocketWrap>
@@ -33,7 +27,8 @@ const Pocket = ({ children, currency, ddOptions, handleSlotChange, onAmountChang
     <Input
       onChange={onAmountChange}
       value={amountValue}
-      onFocus={e=>{ e.target.value === '0' && e.target.select(); }}
+      onFocus={handleFocus}
+      onKeyUp={handleFocus}
     />
     <Balance insufficient={isSeller && checkSufficient(children, amountValue)}>
       Balance: {currencySigns[currency]}{children}

@@ -4,13 +4,11 @@ import styled from 'styled-components';
 import { useExchangeState, useExchangeDispatch, getExchangeRates } from '../../contexts/ExchangeContext';
 import Pocket from './Pocket';
 import { CHANGE_POCKET_ACTION, SWAP_SLOTS_ACTION, INPUT_CHANGE_ACTION, TRIGGER_EXCHANGE_ACTION } from '../../constants';
+import { roundToDecimal } from '../../shared';
 
 const Title = styled.h1``;
 const Button = styled.button``;
 const Rate = styled.span``;
-
-const roundToDecimal = (number, minimumFractionDigits) =>
-  new Intl.NumberFormat('en-GB', { minimumFractionDigits, maximumFractionDigits: minimumFractionDigits }).format(number);
 
 const Exchange = () => {
   const { pockets, slots, exchangeRates, inputs } = useExchangeState();

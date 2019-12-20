@@ -10,6 +10,7 @@ import {
   SWAP_SLOTS_ACTION,
   INPUT_CHANGE_ACTION,
 } from '../constants';
+import { roundToDecimal } from '../shared';
 
 const ExchangeStateContext = createContext();
 const ExchangeDispatchContext = createContext();
@@ -56,9 +57,9 @@ function exchangeReducer (state, action) {
 
       inputs[slot] = parseFloat(value);
       if (slot === 0) {
-        inputs[1] = parseFloat(value) * sellRate;
+        inputs[1] = roundToDecimal(parseFloat(value) * sellRate, 2);
       } else {
-        inputs[0] = parseFloat(value) * (1 / sellRate);
+        inputs[0] = roundToDecimal(parseFloat(value) * (1 / sellRate), 2);
       }
 
       return { ...state, inputs };
