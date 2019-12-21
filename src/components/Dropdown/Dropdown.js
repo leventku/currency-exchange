@@ -10,11 +10,22 @@ const Select = styled.select`
   outline: none;
   color: black;
   font-size: ${inputFontSize}px;
+  background-color: white;
+  width: 160px;
 `;
 const DropdownHolder = styled.div`
   display: inline-block;
+  position: relative;
   color: black;
   border-radius: 5px;
+  &::after {
+    content: '▼';
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    right: 0px;
+    pointer-events: none;
+  }
 `;
 const Dropdown = ({ initialValue, options, handleChange }) => {
   return (
