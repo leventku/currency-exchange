@@ -21,3 +21,5 @@ with React Hooks and Context API.
 - Tidy up
 
 - Better icons
+
+- PropTypes

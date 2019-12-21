@@ -71,8 +71,7 @@ const Exchange = () => {
   const { pockets, slots, exchangeRates, inputs } = useExchangeState();
   const dispatch = useExchangeDispatch();
 
-  // const ddOptions = Object.keys(pockets);
-  const ddOptions = Object.keys(pockets).map(p => (`${p} ${pockets[p]}`));
+  const ddOptions = Object.keys(pockets);
 
   const handleAmountChange = useCallback(slot => (e) => {
     if (e.target.value === '') {
@@ -119,7 +118,7 @@ const Exchange = () => {
       <Title>Exchange</Title>
 
       {slots.map((slot, index) => (
-        <PocketWrap key={`${index}${Math.random()}`}>
+        <PocketWrap key={`${index}${slot}`}>
           <Pocket
             ddOptions={ddOptions}
             handleSlotChange={handleSlotChange(index)}
