@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { inputFontSize } from '../../constants';
+
 const Select = styled.select`
   appearance: none;
   border: none;
   font-size: 1.1em;
   outline: none;
   color: black;
-  padding: 6px;
+  font-size: ${inputFontSize}px;
 `;
 const DropdownHolder = styled.div`
   display: inline-block;

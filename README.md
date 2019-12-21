@@ -1,3 +1,7 @@
+## Currency exchange application
+
+with React Hooks and Context API.
+
 ## Install dependencies
 
 - `npm i`
@@ -9,3 +13,11 @@
 ## Run unit tests
 
 - `npm test`
+
+## To do
+
+- Testing
+
+- Tidy up
+
+- Better icons
