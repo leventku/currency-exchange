@@ -59,17 +59,13 @@ const Pocket = ({ children, currency, ddOptions, onChange, onAmountChange, amoun
 
   const inputRef = useRef();
 
-  const dropdown = useMemo(() => (<Dropdown
-    options={removeFromArray(ddOptions, ddOptions.findIndex(o => o === currency))}
-    handleChange={onChange}
-    initialValue={currency}
-    // we can keep the same rendered component as long as initialValue is the same.
-    /* eslint-disable-next-line */
-  />), [currency]);
-
   return (<PocketWrap>
     <Controls>
-      {dropdown}
+      <Dropdown
+        options={removeFromArray(ddOptions, ddOptions.findIndex(o => o === currency))}
+        handleChange={onChange}
+        initialValue={currency}
+      />
       <div>
         <MinusPlus>
           {getSign(amountValue, isSeller)}
