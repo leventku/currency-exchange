@@ -16,12 +16,15 @@
     "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.4.0",
     "babel-eslint": "^11.0.0-beta.0",
     "babel-jest": "^24.8.0",
     "eslint": "^6.1.0",
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^1.7.0",
     "jest": "^24.8.0",
+    "jest-styled-components": "^6.3.4",
     "jest-transform-stub": "^2.0.0",
     "parcel-bundler": "^1.12.4",
     "react-test-renderer": "^16.8.6"
@@ -37,6 +40,9 @@
     "transform": {
       "^.+\\.jsx?$": "babel-jest",
       ".+\\.(svg|png|jpg)$": "jest-transform-stub"
-    }
+    },
+    "setupFiles": [
+      "./setupJest.js"
+    ]
   }
 }

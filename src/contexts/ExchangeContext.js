@@ -15,7 +15,7 @@ import { roundToDecimal } from '../shared';
 const ExchangeStateContext = createContext();
 const ExchangeDispatchContext = createContext();
 
-function exchangeReducer (state, action) {
+export function exchangeReducer (state, action) {
   switch (action.type) {
     case TRIGGER_EXCHANGE_ACTION: {
       const sellCurrency = state.slots[0];
@@ -29,12 +29,27 @@ function exchangeReducer (state, action) {
       return { ...state, pockets: { ...state.pockets, ...sellPocket, ...buyPocket } };
     }
     case CHANGE_POCKET_ACTION : {
-      const results = Array.from(state.slots);
-      const { slot, value } = action.payload;
+      // rate changes
+      // changed pocket input value should be constant
+      // other pocket input value should be re calculated
+      const { slotIdx, value } = action.payload;
+      const slots = Array.from(state.slots);
+      const inputs = Array.from(state.inputs);
 
-      results[slot] = value;
+      slots[slotIdx] = value;
 
-      return { ...state, slots: results };
+      const inputValue = inputs[slotIdx];
+
+      const sellRate = state.exchangeRates[slots[1]];
+
+      inputs[slotIdx] = parseFloat(inputValue);
+      if (slotIdx === 0) {
+        inputs[1] = roundToDecimal(parseFloat(inputValue) * sellRate, 2);
+      } else {
+        inputs[0] = roundToDecimal(parseFloat(inputValue) * (1 / sellRate), 2);
+      }
+
+      return { ...state, slots, inputs };
     }
     case FINISH_EXCHANGE_RATE_UPDATE_ACTION: {
       return { ...state, exchangeRates: action.payload.rates };
@@ -72,7 +87,7 @@ function exchangeReducer (state, action) {
   }
 }
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   pockets: {
     GBP: 100,
     USD: 5,

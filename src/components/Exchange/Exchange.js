@@ -76,8 +76,9 @@ const Exchange = () => {
   const handleAmountChange = useCallback(slot => (e) => {
     if (e.target.value === '') {
       e.target.value = 0;
+    } else {
+      dispatch({ type: INPUT_CHANGE_ACTION, payload: { slot, value: e.target.value } });
     }
-    dispatch({ type: INPUT_CHANGE_ACTION, payload: { slot, value: e.target.value } });
   }, [dispatch]);
 
   useEffect(() => {
@@ -94,15 +95,15 @@ const Exchange = () => {
     dispatch({ type: SWAP_SLOTS_ACTION });
   };
 
-  const handleSlotChange = (slot) => (e) => {
+  const handlePocketChange = (slotIdx) => (e) => {
     const newPocket = e.target.value;
 
-    if (newPocket === slots[slot === 0 ? 1 : 0]) {
+    if (newPocket === slots[slotIdx === 0 ? 1 : 0]) {
       handleSwapSlots();
     } else {
       dispatch({
         type: CHANGE_POCKET_ACTION,
-        payload: { slot, value: newPocket },
+        payload: { slotIdx, value: newPocket },
       });
     }
   };
@@ -118,15 +119,16 @@ const Exchange = () => {
       <Title>Exchange</Title>
 
       {slots.map((slot, index) => (
-        <PocketWrap key={`${index}${slot}`}>
+        <PocketWrap key={`${index}${slot}}`}>
           <Pocket
             ddOptions={ddOptions}
-            handleSlotChange={handleSlotChange(index)}
+            onChange={handlePocketChange(index)}
             currency={slots[index]}
             isSeller={index === 0}
             onAmountChange={handleAmountChange(index)}
             amountValue={inputs[index]}
-        	  >
+            index={index}
+          >
             {pockets[slots[index]]}
           </Pocket>
         </PocketWrap>
@@ -135,7 +137,7 @@ const Exchange = () => {
       <MiddleControls>
         <SwapSlotButton onClick={handleSwapSlots}>⇅</SwapSlotButton>
         <Rate>
-          ↗ {currencySigns[slots[0]]}1 = {currencySigns[slots[0]]}
+          ↗ {currencySigns[slots[0]]}1 = {currencySigns[slots[1]]}
           {
             exchangeRates[slots[1]]
               ? roundToDecimal(exchangeRates[slots[1]], 4)

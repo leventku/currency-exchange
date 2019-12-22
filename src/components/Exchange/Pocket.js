@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { currencySigns, inputFontSize } from '../../constants';
@@ -22,12 +22,12 @@ const Input = styled.input.attrs({ type: 'number' })`
   background-color:transparent;
   box-shadow: none;
   ::-webkit-inner-spin-button{
-      -webkit-appearance: none; 
-      margin: 0; 
+      -webkit-appearance: none;
+      margin: 0;
   }
   ::-webkit-outer-spin-button{
-      -webkit-appearance: none; 
-      margin: 0; 
+      -webkit-appearance: none;
+      margin: 0;
   }
   font-size: ${inputFontSize}px;
   width: auto;
@@ -44,13 +44,13 @@ const checkSufficient = (pocketValue, amountValue) => pocketValue < amountValue;
 
 const handleFocus = e => { (parseFloat(e.target.value)) === 0 && e.target.select(); };
 
-const getSign = (length, seller) => {
+const getSign = (length, isSeller) => {
   if (!length) { return; }
 
-  return seller ? '-' : '+';
+  return isSeller ? '-' : '+';
 };
 
-const Pocket = ({ children, currency, ddOptions, handleSlotChange, onAmountChange, amountValue, isSeller }) => {
+const Pocket = ({ children, currency, ddOptions, onChange, onAmountChange, amountValue, isSeller, index }) => {
   useEffect(() => {
     const { current } = inputRef;
 
@@ -59,21 +59,25 @@ const Pocket = ({ children, currency, ddOptions, handleSlotChange, onAmountChang
 
   const inputRef = useRef();
 
+  const dropdown = useMemo(() => (<Dropdown
+    options={removeFromArray(ddOptions, ddOptions.findIndex(o => o === currency))}
+    handleChange={onChange}
+    initialValue={currency}
+    // we can keep the same rendered component as long as initialValue is the same.
+    /* eslint-disable-next-line */
+  />), [currency]);
+
   return (<PocketWrap>
     <Controls>
-      <Dropdown
-        options={removeFromArray(ddOptions, ddOptions.findIndex(o => o === currency))}
-        handleChange={handleSlotChange}
-        initialValue={currency}
-      >
-      </Dropdown>
+      {dropdown}
       <div>
         <MinusPlus>
           {getSign(amountValue, isSeller)}
         </MinusPlus>
         <Input
+          label={`slot-${index}`}
           onChange={onAmountChange}
-          value={amountValue}
+          value={isNaN(amountValue) ? '0' : amountValue}
           onFocus={handleFocus}
           onKeyUp={handleFocus}
           ref={inputRef}
@@ -81,7 +85,7 @@ const Pocket = ({ children, currency, ddOptions, handleSlotChange, onAmountChang
       </div>
     </Controls>
     <Balance insufficient={isSeller && checkSufficient(children, amountValue)}>
-      Balance: {currencySigns[currency]}{children.toFixed(2)}
+      Balance: {currencySigns[currency] + children.toFixed(2)}
     </Balance>
   </PocketWrap>);
 };

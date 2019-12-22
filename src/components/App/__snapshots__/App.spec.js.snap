@@ -1,3 +1,334 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `"Done!"`;
+exports[`renders correctly 1`] = `
+.c7 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  font-size: 1.1em;
+  outline: none;
+  color: black;
+  font-size: 64px;
+  background-color: white;
+  width: 160px;
+}
+
+.c6 {
+  display: inline-block;
+  position: relative;
+  color: black;
+  border-radius: 5px;
+}
+
+.c6::after {
+  content: '▼';
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  pointer-events: none;
+}
+
+.c4 {
+  margin: 50px 0;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.c8 {
+  font-size: 64px;
+}
+
+.c9 {
+  border: none;
+  background-image: none;
+  background-color: transparent;
+  box-shadow: none;
+  font-size: 64px;
+  width: auto;
+  width: 3ch;
+  text-align: right;
+  color: #8C959C;
+}
+
+.c9::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.c9::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.c10 {
+  color: #8C959C;
+  font-size: 24px;
+}
+
+.c1 {
+  position: relative;
+  margin: 0 auto;
+  padding: 30px;
+  box-sizing: border-box;
+  width: 720px;
+  background-color: white;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+.c2 {
+  font-size: 36px;
+  height: 5%;
+  position: absolute;
+}
+
+.c11 {
+  font-size: 26px;
+  position: absolute;
+  top: 35%;
+  width: 100%;
+}
+
+.c12 {
+  display: inline-block;
+  color: #0074E8;
+  border: none;
+  font-size: 20px;
+}
+
+.c3 {
+  height: 20%;
+  margin-top: 80px;
+}
+
+.c15 {
+  background-color: #EB008D;
+  width: 90%;
+  height: 85px;
+  border-radius: 40px;
+  font-size: 28px;
+  color: #FFFCFF;
+  box-shadow: 5px 15px 21px #eb008d40;
+  margin: 100px 0;
+}
+
+.c15:disabled {
+  background-color: #e89ecb;
+}
+
+.c13 {
+  color: #0074E8;
+  position: absolute;
+  left: calc(50% - 8ch);
+  top: 0;
+}
+
+.c14 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 20%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100vh;
+}
+
+<div
+  className="c0"
+>
+  <div
+    className="c1"
+  >
+    <h1
+      className="c2"
+    >
+      Exchange
+    </h1>
+    <div
+      className="c3"
+    >
+      <div
+        className="c4"
+      >
+        <div
+          className="c5"
+        >
+          <div
+            className="c6"
+          >
+            <select
+              className="c7"
+              defaultValue="default"
+              onChange={[Function]}
+            >
+              <option
+                value="default"
+              >
+                GBP
+              </option>
+              <option
+                value="USD"
+              >
+                USD
+              </option>
+              <option
+                value="JPY"
+              >
+                JPY
+              </option>
+              <option
+                value="TRY"
+              >
+                TRY
+              </option>
+            </select>
+          </div>
+          <div>
+            <span
+              className="c8"
+            />
+            <input
+              className="c9"
+              label="slot-0"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyUp={[Function]}
+              type="number"
+              value={0}
+            />
+          </div>
+        </div>
+        <p
+          className="c10"
+        >
+          Balance: 
+          £100.00
+        </p>
+      </div>
+    </div>
+    <div
+      className="c3"
+    >
+      <div
+        className="c4"
+      >
+        <div
+          className="c5"
+        >
+          <div
+            className="c6"
+          >
+            <select
+              className="c7"
+              defaultValue="default"
+              onChange={[Function]}
+            >
+              <option
+                value="default"
+              >
+                USD
+              </option>
+              <option
+                value="GBP"
+              >
+                GBP
+              </option>
+              <option
+                value="JPY"
+              >
+                JPY
+              </option>
+              <option
+                value="TRY"
+              >
+                TRY
+              </option>
+            </select>
+          </div>
+          <div>
+            <span
+              className="c8"
+            />
+            <input
+              className="c9"
+              label="slot-1"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyUp={[Function]}
+              type="number"
+              value={0}
+            />
+          </div>
+        </div>
+        <p
+          className="c10"
+        >
+          Balance: 
+          $5.00
+        </p>
+      </div>
+    </div>
+    <section
+      className="c11"
+    >
+      <button
+        className="c12"
+        onClick={[Function]}
+      >
+        ⇅
+      </button>
+      <div
+        className="c13"
+      >
+        ↗ 
+        £
+        1 = 
+        $
+        
+      </div>
+    </section>
+    <section
+      className="c14"
+    >
+      <button
+        className="c15"
+        disabled={true}
+        onClick={[Function]}
+      >
+        Exchange
+      </button>
+    </section>
+  </div>
+</div>
+`;
