@@ -203,9 +203,9 @@ exports[`renders correctly 1`] = `
                 USD
               </option>
               <option
-                value="JPY"
+                value="EUR"
               >
-                JPY
+                EUR
               </option>
               <option
                 value="TRY"
@@ -265,9 +265,9 @@ exports[`renders correctly 1`] = `
                 GBP
               </option>
               <option
-                value="JPY"
+                value="EUR"
               >
-                JPY
+                EUR
               </option>
               <option
                 value="TRY"

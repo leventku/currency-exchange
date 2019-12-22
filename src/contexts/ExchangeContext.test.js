@@ -71,7 +71,7 @@ describe('exchangeReducer', () => {
     };
 
     expect(exchangeReducer(intoReducer, {
-      type: CHANGE_POCKET_ACTION, payload: { slotIdx: 1, value: 'c' } }))
+      type: CHANGE_POCKET_ACTION, payload: { slotIdx: 1, newPocketCurrency: 'c' } }))
       .toEqual(outOfReducer);
   });
 });

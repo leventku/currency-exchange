@@ -32,27 +32,29 @@ export function exchangeReducer (state, action) {
       // rate changes
       // changed pocket input value should be constant
       // other pocket input value should be re calculated
-      const { slotIdx, value } = action.payload;
+      const { slotIdx, newPocketCurrency } = action.payload;
       const slots = Array.from(state.slots);
       const inputs = Array.from(state.inputs);
+      const inputValue = state.inputs[slotIdx];
 
-      slots[slotIdx] = value;
-
-      const inputValue = inputs[slotIdx];
-
-      const sellRate = state.exchangeRates[slots[1]];
+      slots[slotIdx] = newPocketCurrency;
 
       inputs[slotIdx] = parseFloat(inputValue);
-      if (slotIdx === 0) {
-        inputs[1] = roundToDecimal(parseFloat(inputValue) * sellRate, 2);
-      } else {
+      if (slotIdx === 1) {
+        const sellRate = state.exchangeRates[slots[1]];
+
         inputs[0] = roundToDecimal(parseFloat(inputValue) * (1 / sellRate), 2);
       }
 
       return { ...state, slots, inputs };
     }
     case FINISH_EXCHANGE_RATE_UPDATE_ACTION: {
-      return { ...state, exchangeRates: action.payload.rates };
+      // refresh input[1] as the new exchangeRates arrive
+      const inputs = [...state.inputs];
+
+      inputs[1] = roundToDecimal(inputs[0] * action.payload.rates[state.slots[1]], 2);
+
+      return { ...state, exchangeRates: action.payload.rates, inputs };
     }
     case SWAP_SLOTS_ACTION: {
       const slots = Array.from(state.slots);
@@ -66,8 +68,8 @@ export function exchangeReducer (state, action) {
 
     case INPUT_CHANGE_ACTION: {
       const { slot, value } = action.payload;
-      const inputs = Array.from(state.inputs);
 
+      const inputs = Array.from(state.inputs);
       const sellRate = state.exchangeRates[state.slots[1]];
 
       inputs[slot] = parseFloat(value);
@@ -91,7 +93,7 @@ export const INITIAL_STATE = {
   pockets: {
     GBP: 100,
     USD: 5,
-    JPY: 10,
+    EUR: 10,
     TRY: 10,
   },
   slots: [

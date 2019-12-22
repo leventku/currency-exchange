@@ -76,9 +76,9 @@ const Exchange = () => {
   const handleAmountChange = useCallback(slot => (e) => {
     if (e.target.value === '') {
       e.target.value = 0;
-    } else {
-      dispatch({ type: INPUT_CHANGE_ACTION, payload: { slot, value: e.target.value } });
     }
+    dispatch({ type: INPUT_CHANGE_ACTION, payload: { slot, value: e.target.value } });
+
   }, [dispatch]);
 
   useEffect(() => {
@@ -96,14 +96,14 @@ const Exchange = () => {
   };
 
   const handlePocketChange = (slotIdx) => (e) => {
-    const newPocket = e.target.value;
+    const newPocketCurrency = e.target.value;
 
-    if (newPocket === slots[slotIdx === 0 ? 1 : 0]) {
+    if (newPocketCurrency === slots[slotIdx === 0 ? 1 : 0]) {
       handleSwapSlots();
     } else {
       dispatch({
         type: CHANGE_POCKET_ACTION,
-        payload: { slotIdx, value: newPocket },
+        payload: { slotIdx, newPocketCurrency },
       });
     }
   };
