@@ -43,7 +43,7 @@ export function exchangeReducer (state, action) {
       if (slotIdx === 1) {
         const sellRate = state.exchangeRates[slots[1]];
 
-        inputs[0] = roundToDecimal(parseFloat(inputValue) * (1 / sellRate), 2);
+        inputs[0] = parseFloat((parseFloat(inputValue) * (1 / sellRate)).toFixed(2));
       }
 
       return { ...state, slots, inputs };
@@ -52,7 +52,7 @@ export function exchangeReducer (state, action) {
       // refresh input[1] as the new exchangeRates arrive
       const inputs = [...state.inputs];
 
-      inputs[1] = roundToDecimal(inputs[0] * action.payload.rates[state.slots[1]], 2);
+      inputs[1] = parseFloat((inputs[0] * action.payload.rates[state.slots[1]]).toFixed(2));
 
       return { ...state, exchangeRates: action.payload.rates, inputs };
     }
@@ -74,9 +74,9 @@ export function exchangeReducer (state, action) {
 
       inputs[slot] = parseFloat(value);
       if (slot === 0) {
-        inputs[1] = roundToDecimal(parseFloat(value) * sellRate, 2);
+        inputs[1] = parseFloat((parseFloat(value) * sellRate).toFixed(2));
       } else {
-        inputs[0] = roundToDecimal(parseFloat(value) * (1 / sellRate), 2);
+        inputs[0] = parseFloat((parseFloat(value) * (1 / sellRate)).toFixed(2));
       }
 
       return { ...state, inputs };
@@ -143,17 +143,14 @@ async function getExchangeRates (dispatch, fromCurrency) {
     const response = await fetch(`${SERVER_URL}${fromCurrency}`, { mode: 'cors' });
 
     if (response.status >= 400 && response.status < 600) {
-      // console.log('bad response');
       throw new Error('Bad response from server');
     } else {
-      // console.log('good response');
       const json = await response.json();
 
       dispatch({ type: FINISH_EXCHANGE_RATE_UPDATE_ACTION, payload: json });
     }
   } catch (error) {
     dispatch({ type: FAIL_EXCHANGE_RATE_UPDATE_ACTION, error });
-    // console.log('fail response');
   }
 }
 

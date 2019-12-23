@@ -16,7 +16,7 @@ const Controls = styled.div`
 const MinusPlus = styled.span`
   font-size: ${inputFontSize}px;
 `;
-const Input = styled.input.attrs({ type: 'number' })`
+const Input = styled.input`
   border:none;
   background-image:none;
   background-color:transparent;
@@ -30,10 +30,10 @@ const Input = styled.input.attrs({ type: 'number' })`
       margin: 0;
   }
   font-size: ${inputFontSize}px;
-  width: auto;
+  max-width: 400px;
   width: 3ch;
   text-align: right;
-  color: ${p => p.value === 0 ? '#8C959C' : 'normal'};
+  color: ${p => p.value === 0 ? '#8C959C' : 'black'};
 `;
 const Balance = styled.p`
   color: ${p => p.insufficient ? '#EB008D' : '#8C959C'};
@@ -42,7 +42,26 @@ const Balance = styled.p`
 
 const checkSufficient = (pocketValue, amountValue) => pocketValue < amountValue;
 
+const validateInput = (value) => {
+  const arr = /^(\d*)\.(\d*)$/.exec(value);
+
+  if (!arr) { return value; }
+
+  const decimal = arr[2];
+
+  if (decimal && decimal.length > 2) {
+    return parseFloat(value).toFixed(2);
+  }
+
+  return value;
+};
+
 const handleFocus = e => { (parseFloat(e.target.value)) === 0 && e.target.select(); };
+
+const handleKeyDown = amountChange => e => {
+  e.target.value = validateInput(e.target.value);
+  amountChange(e.target.value);
+};
 
 const getSign = (length, isSeller) => {
   if (!length) { return; }
@@ -71,11 +90,13 @@ const Pocket = ({ children, currency, ddOptions, onChange, onAmountChange, amoun
           {getSign(amountValue, isSeller)}
         </MinusPlus>
         <Input
+          min="0"
+          value="0"
+          type="number"
           label={`slot-${index}`}
-          onChange={onAmountChange}
-          value={isNaN(amountValue) ? '0' : amountValue}
+          onChange={handleKeyDown(onAmountChange)}
           onFocus={handleFocus}
-          onKeyUp={handleFocus}
+          value={isNaN(amountValue) ? '0' : amountValue}
           ref={inputRef}
         />
       </div>

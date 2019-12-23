@@ -56,7 +56,7 @@ exports[`renders correctly 1`] = `
   background-color: transparent;
   box-shadow: none;
   font-size: 64px;
-  width: auto;
+  max-width: 400px;
   width: 3ch;
   text-align: right;
   color: #8C959C;
@@ -221,9 +221,9 @@ exports[`renders correctly 1`] = `
             <input
               className="c9"
               label="slot-0"
+              min="0"
               onChange={[Function]}
               onFocus={[Function]}
-              onKeyUp={[Function]}
               type="number"
               value={0}
             />
@@ -283,9 +283,9 @@ exports[`renders correctly 1`] = `
             <input
               className="c9"
               label="slot-1"
+              min="0"
               onChange={[Function]}
               onFocus={[Function]}
-              onKeyUp={[Function]}
               type="number"
               value={0}
             />

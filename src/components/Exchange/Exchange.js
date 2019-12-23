@@ -73,11 +73,8 @@ const Exchange = () => {
 
   const ddOptions = Object.keys(pockets);
 
-  const handleAmountChange = useCallback(slot => (e) => {
-    if (e.target.value === '') {
-      e.target.value = 0;
-    }
-    dispatch({ type: INPUT_CHANGE_ACTION, payload: { slot, value: e.target.value } });
+  const handleAmountChange = useCallback(slot => (value) => {
+    dispatch({ type: INPUT_CHANGE_ACTION, payload: { slot, value } });
 
   }, [dispatch]);
 
@@ -140,7 +137,7 @@ const Exchange = () => {
           ↗ {currencySigns[slots[0]]}1 = {currencySigns[slots[1]]}
           {
             exchangeRates[slots[1]]
-              ? roundToDecimal(exchangeRates[slots[1]], 4)
+              ? (exchangeRates[slots[1]]).toFixed(4)
               : ''
           }
         </Rate>
