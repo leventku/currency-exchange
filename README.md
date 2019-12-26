@@ -14,12 +14,12 @@ with React Hooks and Context API.
 
 - `npm test`
 
-## To do
+## What I would have done if I had more time:
 
-- Testing
+- Testing the user story
 
-- Tidy up
+- Type checking with Flow
 
 - Better icons
 
-- PropTypes
+- Tidy up

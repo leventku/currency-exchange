@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import { inputFontSize } from '../../constants';
 
@@ -40,6 +41,12 @@ const Dropdown = ({ initialValue, options, handleChange }) => {
       </Select>
     </DropdownHolder>
   );
+};
+
+Dropdown.propTypes = {
+  handleChange: PropTypes.func,
+  initialValue: PropTypes.string,
+  options: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default Dropdown;

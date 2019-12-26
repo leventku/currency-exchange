@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import { currencySigns, inputFontSize } from '../../constants';
 import { removeFromArray } from '../../shared';
@@ -105,6 +106,17 @@ const Pocket = ({ children, currency, ddOptions, onChange, onAmountChange, amoun
       Balance: {currencySigns[currency] + children.toFixed(2)}
     </Balance>
   </PocketWrap>);
+};
+
+Pocket.propTypes = {
+  amountValue: PropTypes.number,
+  children: PropTypes.number,
+  currency: PropTypes.string,
+  ddOptions: PropTypes.arrayOf(PropTypes.string),
+  index: PropTypes.number,
+  isSeller: PropTypes.bool,
+  onAmountChange: PropTypes.func,
+  onChange: PropTypes.func,
 };
 
 export default Pocket;
