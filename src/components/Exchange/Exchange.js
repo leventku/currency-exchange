@@ -132,7 +132,7 @@ const Exchange = () => {
 
       <MiddleControls>
         <SwapSlotButton onClick={handleSwapSlots}>⇅</SwapSlotButton>
-        <Rate>
+        <Rate data-testid="exchangeRate">
           ↗ {currencySigns[slots[0]]}1 = {currencySigns[slots[1]]}
           {
             exchangeRates[slots[1]]

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import { currencySigns, inputFontSize } from '../../constants';
@@ -93,7 +93,7 @@ const Pocket = ({ children, currency, ddOptions, onChange, onAmountChange, amoun
           min="0"
           value="0"
           type="number"
-          label={`slot-${index}`}
+          data-testid={`pocketInput-${index}`}
           onChange={handleKeyDown(onAmountChange)}
           onFocus={handleFocus}
           value={isNaN(amountValue) ? '0' : amountValue}

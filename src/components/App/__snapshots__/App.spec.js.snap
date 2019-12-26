@@ -220,7 +220,7 @@ exports[`renders correctly 1`] = `
             />
             <input
               className="c9"
-              label="slot-0"
+              data-testid="pocketInput-0"
               min="0"
               onChange={[Function]}
               onFocus={[Function]}
@@ -282,7 +282,7 @@ exports[`renders correctly 1`] = `
             />
             <input
               className="c9"
-              label="slot-1"
+              data-testid="pocketInput-1"
               min="0"
               onChange={[Function]}
               onFocus={[Function]}
@@ -310,6 +310,7 @@ exports[`renders correctly 1`] = `
       </button>
       <div
         className="c13"
+        data-testid="exchangeRate"
       >
         ↗ 
         £
